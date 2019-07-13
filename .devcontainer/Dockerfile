@@ -29,3 +29,21 @@ RUN apt-get update \
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=dialog
+
+
+ARG version=0.20.0
+WORKDIR /
+RUN wget http://nim-lang.org/download/nim-${version}.tar.xz \
+    && tar xf nim-${version}.tar.xz; rm nim-${version}.tar.xz \
+    && mv nim-${version} nim
+WORKDIR /nim
+RUN sh build.sh \
+    && ln -snfv ${PWD}/bin/nim /bin/nim
+RUN nim c koch \
+    && ./koch tools \
+    && ln -snfv ${PWD}/bin/nimble /bin/nimble \
+    && ln -snfv ${PWD}/bin/nimsuggest /bin/nimsuggest \
+    && ln -snfv ${PWD}/bin/nimfind /bin/nimfind \
+    && ln -snfv ${PWD}/bin/nimgrep /bin/nimgrep \
+    && ln -snfv ${PWD}/bin/nimpretty /bin/nimpretty
+ENV PATH="~/.nimble/bin:${PATH}"

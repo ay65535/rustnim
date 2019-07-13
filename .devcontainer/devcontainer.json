@@ -1,6 +1,6 @@
 // See https://aka.ms/vscode-remote/devcontainer.json for format details.
 {
-	"name": "Rust",
+	"name": "RustNim",
 	"dockerFile": "Dockerfile",
 	"runArgs": [
 		"--cap-add=SYS_PTRACE",
@@ -17,7 +17,8 @@
 		"rust-lang.rust",
 		"bungcip.better-toml",
 		"vadimcn.vscode-lldb",
-		"serayuzgur.crates"
+		"serayuzgur.crates",
+		"kosz78.nim"
 	],
 	"settings": {
 		"lldb.executable": "/usr/bin/lldb-3.9"
