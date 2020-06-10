@@ -47,3 +47,6 @@ RUN nim c koch \
     && ln -snfv ${PWD}/bin/nimgrep /bin/nimgrep \
     && ln -snfv ${PWD}/bin/nimpretty /bin/nimpretty
 ENV PATH="~/.nimble/bin:${PATH}"
+RUN nimble refresh \
+    && nimble install c2nim \
+    && ln -snfv ~/.nimble/bin/c2nim /bin/c2nim
