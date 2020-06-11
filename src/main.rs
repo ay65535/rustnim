@@ -1,39 +1,50 @@
 extern crate rand;
 
-use rand::Rng;
-use std::cmp::Ordering;
 use std::io;
+use std::path::Path;
 
 fn main() {
-    println!("Guess the number!");
+    // Create a `Path` from an `&'static str`
+    let path = Path::new(".");
 
-    let secret_number = rand::thread_rng().gen_range(1, 101);
+    // The `display` method returns a `Show`able structure
+    // `display`メソッドは`Show`可能な構造体を返す。
+    let _display = path.display();
 
-    // println!("The secret number is: {}", secret_number); //秘密の数字は次の通り: {}
+    // `join` merges a path with a byte container using the OS specific
+    // separator, and returns the new path
+    // `join`はOS固有のセパレータによってバイトのコンテナ型であるパス
+    // を結合し、新しいパスを返す。
+    let new_path = path.join("a").join("b");
 
-    loop {
-        println!("Please input your guess.");
-
-        let mut guess = String::new();
-
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("Failed to read line");
-
-        let guess: u32 = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_) => continue, // _ は、包括値
-        };
-
-        println!("You guessed: {}", guess);
-
-        match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Too small!"),  //小さすぎ！
-            Ordering::Greater => println!("Too big!"), //大きすぎ！
-            Ordering::Equal => {
-                println!("You win!"); //やったね！
-                break;
-            }
-        }
+    // Convert the path into a string slice
+    // パスを文字列のスライスに変換する。
+    match new_path.to_str() {
+        None => panic!("new path is not a valid UTF-8 sequence"),
+        Some(s) => println!("new path is {}", s),
     }
+
+    println!("Please input SS bin path.");
+    let mut buf = String::new();
+    io::stdin()
+        .read_line(&mut buf)
+        .expect("Failed to read line");
+
+    let path = Path::new(&buf);
+
+    // Convert the path into a string slice
+    // パスを文字列のスライスに変換する。
+    match path.parent() {
+        None => panic!("new path is not a valid UTF-8 sequence"),
+        Some(s) => match s.to_str() {
+            None => panic!("convert failed"),
+            Some(s) => println!("parent: {}", s)
+        },
+    }
+
+    let file_stem = path.file_stem().unwrap().to_str().unwrap();
+    println!("file_stem: {}", file_stem);
+
+    let extension = path.extension().unwrap().to_str().unwrap();
+    println!("extension: {}", extension);
 }
