@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+
+  dev:
+    image: rust:1
+
+    volumes:
+      # Mounts the project folder to '/workspace'. While this file is in .devcontainer,
+      # mounts are relative to the first file in the list, which is a level up.
+      - ..:/workspace:cached
+
+    # [Optional] Required for ptrace-based debuggers like C++, Go, and Rust
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - http_proxy
+        - https_proxy
+        - NIM_VERSION=1.2.0
+
+    environment:
+      - http_proxy
+      - https_proxy
+    tty: true

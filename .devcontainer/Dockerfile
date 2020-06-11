@@ -31,11 +31,11 @@ RUN apt-get update \
 ENV DEBIAN_FRONTEND=dialog
 
 
-ARG version=0.20.0
+ARG NIM_VERSION
 WORKDIR /
-RUN wget http://nim-lang.org/download/nim-${version}.tar.xz \
-    && tar xf nim-${version}.tar.xz; rm nim-${version}.tar.xz \
-    && mv nim-${version} nim
+RUN wget http://nim-lang.org/download/nim-${NIM_VERSION}.tar.xz \
+    && tar xf nim-${NIM_VERSION}.tar.xz; rm nim-${NIM_VERSION}.tar.xz \
+    && mv nim-${NIM_VERSION} nim
 WORKDIR /nim
 RUN sh build.sh \
     && ln -snfv ${PWD}/bin/nim /bin/nim
