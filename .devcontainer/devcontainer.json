@@ -22,6 +22,7 @@
 		"kosz78.nim"
 	],
 	"settings": {
-		"lldb.executable": "/usr/bin/lldb-3.9"
+		"lldb.executable": "/usr/bin/lldb-3.9",
+		"rust-client.channel": "default"
 	}
 }
